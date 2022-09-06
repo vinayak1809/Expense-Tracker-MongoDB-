@@ -33,8 +33,13 @@
                 <% } %>
     </main>
     <div class="already">
-        <p style="color: white;">Already have a account? </p>
-        <a style="color: white;" href="/login">Login here</a>
+        <% if(login){ %> 
+            <p style="color: white;">Don't have a account? &nbsp; </p>
+            <a style="color: white;" href="/signup">SignUp here</a>
+        <% } else { %> 
+            <p style="color: white;">Already have a account? &nbsp;</p>
+            <a style="color: white;" href="/login">Login here</a>
+        <% } %>
     </div>
 </body>
 </html>
