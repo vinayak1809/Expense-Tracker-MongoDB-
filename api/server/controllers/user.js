@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../src/models/user");
+var JSAlert = require("alert");
 
 exports.getSignup = (req, res, next) => {
   res.render("user/signup", {
@@ -25,14 +26,14 @@ exports.postSignup = (req, res, next) => {
         password: password,
       })
         .then((result) => {
-          res.json("user created");
-          // res.redirect("/");
+          JSAlert("Successfuly signed up");
+          res.redirect("/login");
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      res.json({ success: true, message: "user already exist" });
+      JSAlert("User already exists, Please Login");
     }
   });
 };
@@ -53,7 +54,7 @@ exports.postLogin = (req, res, next) => {
   User.findAll({ where: { email: email } })
     .then((user) => {
       if (user[0].password == password) {
-        res.json("logged in");
+        JSAlert("Successfuly logged in");
       }
     })
     .catch((err) => {
