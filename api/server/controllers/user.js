@@ -1,6 +1,8 @@
 const express = require("express");
 const User = require("../src/models/user");
-var JSAlert = require("alert");
+const JSAlert = require("alert");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 exports.getSignup = (req, res, next) => {
   res.render("user/signup", {
@@ -17,24 +19,28 @@ exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const phone_number = req.body.ph_num;
   const password = req.body.password;
-  User.findAll({ where: { email: email } }).then((user) => {
-    if (user.length == 0) {
-      User.create({
-        name: name,
-        email: email,
-        phone_number: phone_number,
-        password: password,
-      })
-        .then((result) => {
-          JSAlert("Successfuly signed up");
-          res.redirect("/login");
+  const saltRounds = 10;
+
+  bcrypt.genSalt(saltRounds, function (err, salt) {
+    bcrypt.hash(password, salt, function (err, hash) {
+      if (err) {
+        res.json({ message: "Unable to create new user" });
+      } else {
+        User.create({
+          name: name,
+          email: email,
+          phone_number: phone_number,
+          password: hash,
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      JSAlert("User already exists, Please Login");
-    }
+          .then((user) => {
+            res.redirect("/login");
+          })
+          .catch((err) => {
+            // console.log(err);
+            res.status(403).json(err);
+          });
+      }
+    });
   });
 };
 
@@ -53,11 +59,27 @@ exports.postLogin = (req, res, next) => {
 
   User.findAll({ where: { email: email } })
     .then((user) => {
-      if (user[0].password == password) {
-        JSAlert("Successfuly logged in");
+      if (user.length != 0) {
+        bcrypt.compare(password, user[0].password, (err, response) => {
+          if (err) {
+            return res.status(402).json("something went wrong");
+          } else if (response) {
+            const token = jwt.sign(
+              { user_id: user[0]._id },
+              process.env.TOKEN_SECRET
+            );
+
+            res.json({ token: token, success: true, message: "successfull" });
+            JSAlert("Successfuly logged in");
+          } else {
+            return res.status(404).json("invalid password");
+          }
+        });
+      } else {
+        return res.status(404).json("user not found");
       }
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err, "err");
     });
 };
