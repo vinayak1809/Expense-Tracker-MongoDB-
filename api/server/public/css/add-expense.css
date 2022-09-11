@@ -1,0 +1,92 @@
+*{
+   box-sizing: border-box;
+}
+body{
+background-color: rgb(235, 214, 121);
+}
+main{
+    display: flex;
+    width: 600px;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+}
+div.total{
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.main{
+    display: flex;
+    margin: auto;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.expenses > input{
+    border: none;
+    color: black;
+}
+.expenses > input:focus{
+    outline: none;
+}
+#amount{
+    width: 150px;
+}
+
+input,select,button{
+    padding: 5px;
+}
+
+/* ////////////////////////////////////////////////// */
+
+/* expenses list */
+
+/* ////////////////////////////////////////////////// */
+
+
+.expenseList{
+    display: flex;
+    background-color: aqua;
+    margin: auto;
+    max-width: 800px;
+    flex-direction: column;
+}
+.dk{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+ul{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    
+}
+.list{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.update-delete{
+    display: flex;
+    margin: auto;
+    justify-content: space-between;
+    max-width: 250px;
+}
+/* 
+.expenseList{
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+} */
+.list>li{
+   list-style-type: none;
+}

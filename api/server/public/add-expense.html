@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/add-expense.css">
+    <title>Add-Expense</title>
+</head>
+<body>
+
+    <main>
+        <div class="total">
+           <p>Total Money Spended: </p>
+           <p>25$</p> 
+        </div>
+            <h2>Add-Expense</h2>
+            <div class="main">
+                
+                <div class="expenses"> 
+
+        <form onsubmit="saveExpense(event)" method="POST"> 
+                    <label for="">Category: </label>
+                    <select id="category" name="category" >
+                        <option value="petrol">petrol</option>
+                        <option value="medicines">medicines</option>
+                        <option value="fruits">fruits</option>
+                        <option value="vegetables">vegetables</option>
+                    </select>
+                    <input type="text" name="description" id="description" placeholder="Describe here">
+                    <input type="text" name="amount" id="amount" placeholder="Amount">
+                    <button type="submit">Add</button>
+        </form>
+                </div>
+            </div>
+      
+        <h2>Expenses List</h2>
+       
+    </main>
+    <section class="expenseList" id="expenseList" >
+        <div class="dk">
+            <ul class="list">
+                <li>Category</li>
+                <li>Description</li>
+                <li>Amount</li>
+            </ul>
+        </div>
+        <hr>
+        <div class="dk">
+            <ul class="list">
+                <li>price</li>
+                <li>a lot ok</li>
+                <li>40$</li>
+            </ul>
+            <div class="update-delete">
+                <a href="/delete-expense"><button>delete</button></a>
+                <a href=""><button>edit</button></a>
+            </div>
+        </div>
+        
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="./js/add-expense.js"></script>
+</body>
+</html>
