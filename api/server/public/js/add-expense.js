@@ -1,3 +1,5 @@
+const token = localStorage.getItem("token");
+
 function showExpense(expenseList) {
   const expensesList = document.getElementById("expenseList");
   expenseList.forEach((expense) => {
@@ -36,13 +38,16 @@ function showExpense(expenseList) {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
-  await axios.get("http://localhost:4000/expense").then((result) => {
-    showExpense(result.data);
-  });
+  await axios
+    .get("http://localhost:4000/expense", { headers: { authorization: token } })
+    .then((result) => {
+      showExpense(result.data);
+    });
 });
 
 async function saveExpense(event) {
   event.preventDefault();
+  console.log(token, "saveexpense");
   const form = new FormData(event.target);
 
   const addExpense = {
@@ -52,12 +57,14 @@ async function saveExpense(event) {
   };
 
   const log = await axios
-    .post("http://localhost:4000/add-expense", addExpense)
+    .post("http://localhost:4000/add-expense", addExpense, {
+      headers: { authorization: token },
+    })
     .then((result) => {
       alert("Item added");
 
       showExpense([addExpense]);
-      location.href = "http://localhost:4000/add-expense.html";
+      // location.href = "http://localhost:4000/add-expense.html";
     })
     .catch((err) => {
       console.log(err);
@@ -70,8 +77,11 @@ function deleteFromFrontEnd(id) {
 }
 
 async function deleteExpense(id) {
+  data = { id: id };
   const delete_expense = await axios
-    .delete(`http://localhost:4000/delete-expense/${id}`)
+    .post(`http://localhost:4000/delete-expense`, data, {
+      headers: { authorization: token },
+    })
     .then((result) => {
       alert("item deleted");
       deleteFromFrontEnd(id);

@@ -23,6 +23,7 @@ exports.addExpense = function (req, res, next) {
     category: category,
     description: description,
     amount: amount,
+    userId: req.id,
   })
     .then((expense) => {
       res.status(200).json({ success: true, message: "Item added" });
@@ -33,18 +34,23 @@ exports.addExpense = function (req, res, next) {
 };
 
 exports.deleteExpense = (req, res, next) => {
-  const id = req.params.id;
+  const id = req.body.id;
+  console.log("req.id>>>>>>", req.id, id);
 
   if (id == undefined) {
     res.status(400).json({ success: false, message: "undefined" });
   }
 
-  Expenses.destroy({ where: { id: id } })
+  Expenses.destroy({ where: { id: id, userId: req.id } })
     .then((result) => {
-      result[0].destroy();
       res.status(200).json({ success: true, message: "Item deleted" });
     })
     .catch((err) => {
-      res.status(500).json({ success: false, message: err });
+      res
+        .status(500)
+        .json({
+          success: false,
+          message: "you are not authorized user to delete this item",
+        });
     });
 };
