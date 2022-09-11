@@ -1,85 +1,50 @@
 const express = require("express");
-const User = require("../src/models/user");
+const Expenses = require("../src/models/expenses");
 const JSAlert = require("alert");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
-exports.getSignup = (req, res, next) => {
-  res.render("user/signup", {
-    pageTitle: "Add Product",
-    path: "/",
-    editing: false,
-    formsCSS: true,
-    login: false,
+exports.getExpenses = function (req, res, next) {
+  Expenses.findAll().then((expense) => {
+    res.json(expense);
   });
 };
 
-exports.postSignup = (req, res, next) => {
-  const name = req.body.name;
-  const email = req.body.email;
-  const phone_number = req.body.ph_num;
-  const password = req.body.password;
-  const saltRounds = 10;
+exports.addExpense = function (req, res, next) {
+  const category = req.body.category;
+  const description = req.body.description;
+  const amount = req.body.amount;
 
-  bcrypt.genSalt(saltRounds, function (err, salt) {
-    bcrypt.hash(password, salt, function (err, hash) {
-      if (err) {
-        res.json({ message: "Unable to create new user" });
-      } else {
-        User.create({
-          name: name,
-          email: email,
-          phone_number: phone_number,
-          password: hash,
-        })
-          .then((user) => {
-            res.redirect("/login");
-          })
-          .catch((err) => {
-            // console.log(err);
-            res.status(403).json(err);
-          });
-      }
-    });
-  });
-};
+  if (category.length == 0 || description.length == 0 || amount.length == 0) {
+    return res
+      .status(400)
+      .json({ success: false, message: "parameter missing" });
+  }
 
-exports.getLogin = (req, res, next) => {
-  res.render("user/signup", {
-    path: "/",
-    editing: false,
-    formsCSS: true,
-    login: true,
-  });
-};
-
-exports.postLogin = (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  User.findAll({ where: { email: email } })
-    .then((user) => {
-      if (user.length != 0) {
-        bcrypt.compare(password, user[0].password, (err, response) => {
-          if (err) {
-            return res.status(402).json("something went wrong");
-          } else if (response) {
-            const token = jwt.sign(
-              { user_id: user[0]._id },
-              process.env.TOKEN_SECRET
-            );
-
-            res.json({ token: token, success: true, message: "successfull" });
-            JSAlert("Successfuly logged in");
-          } else {
-            return res.status(404).json("invalid password");
-          }
-        });
-      } else {
-        return res.status(404).json("user not found");
-      }
+  Expenses.create({
+    category: category,
+    description: description,
+    amount: amount,
+  })
+    .then((expense) => {
+      res.status(200).json({ success: true, message: "Item added" });
     })
     .catch((err) => {
-      console.log(err, "err");
+      res.status(500).json({ success: false, message: err });
+    });
+};
+
+exports.deleteExpense = (req, res, next) => {
+  const id = req.params.id;
+
+  if (id == undefined) {
+    res.status(400).json({ success: false, message: "undefined" });
+  }
+
+  Expenses.destroy({ where: { id: id } })
+    .then((result) => {
+      result[0].destroy();
+      res.status(200).json({ success: true, message: "Item deleted" });
+    })
+    .catch((err) => {
+      res.status(500).json({ success: false, message: err });
     });
 };
