@@ -68,7 +68,7 @@ width: 80%;
     width: 50%;
 }
 li#desc{
-    display: none;
+  /*  display: none; */
 }
 .perform > button {
     border-radius: 50%;

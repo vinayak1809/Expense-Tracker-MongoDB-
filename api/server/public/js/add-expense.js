@@ -1,4 +1,37 @@
 const token = localStorage.getItem("token");
+let page = 1;
+
+const previous = document.getElementById("previous");
+const next = document.getElementById("next");
+
+async function callPage(event) {
+  event.preventDefault();
+
+  if (event.target.id == "next") {
+    previous.style.display = "block";
+    page = page + 1;
+    await axios
+      .get(`http://localhost:4000/expense/?page=${page}`, {
+        headers: { authorization: token },
+      })
+      .then((result) => {
+        if (result.data.length != 0) {
+          showExpense(result.data);
+        } else {
+          next.style.display = "none";
+        }
+      });
+  } else {
+    page = page - 1;
+    await axios
+      .get(`http://localhost:4000/expense/?page=${page}`, {
+        headers: { authorization: token },
+      })
+      .then((result) => {
+        showExpense(result.data);
+      });
+  }
+}
 
 function showExpense(expenseList) {
   const expensesList = document.getElementById("expense-list");
@@ -24,16 +57,19 @@ function showExpense(expenseList) {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
+  console.log("here again");
   await axios
-    .get("http://localhost:4000/expense", { headers: { authorization: token } })
+    .get(`http://localhost:4000/expense/?page=${page}`, {
+      headers: { authorization: token },
+    })
     .then((result) => {
+      previous.style.display = "none";
       showExpense(result.data);
     });
 });
 
 async function saveExpense(event) {
   event.preventDefault();
-
   const form = new FormData(event.target);
 
   const addExpense = {
