@@ -4,6 +4,9 @@ const JSAlert = require("alert");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+///////////////////////////////////////////////
+// signup
+///////////////////////////////////////////////
 exports.getSignup = (req, res, next) => {
   res.render("user/signup", {
     pageTitle: "Add Product",
@@ -57,6 +60,9 @@ exports.postSignup = (req, res, next) => {
   });
 };
 
+///////////////////////////////////////////////
+// login
+///////////////////////////////////////////////
 exports.getLogin = (req, res, next) => {
   res.render("user/login", {
     path: "/",
@@ -104,4 +110,13 @@ exports.postLogin = (req, res, next) => {
     .catch((err) => {
       console.log(err, "err");
     });
+};
+
+///////////////////////////////////////////////
+// forget-password
+///////////////////////////////////////////////
+
+exports.postMail = (req, res, next) => {
+  const mail = req.body.mail;
+  console.log(mail, "mail");
 };
