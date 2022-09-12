@@ -15,6 +15,7 @@ router.post("/login", authController.postLogin);
 router.get("/expense", middleware.authenticate, userExpense.getExpenses);
 router.post("/add-expense", middleware.authenticate, userExpense.addExpense);
 
+router.post("/password/forgotpassword", authController.postMail);
 router.post(
   "/delete-expense",
   middleware.authenticate,
