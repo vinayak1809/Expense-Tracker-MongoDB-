@@ -1,92 +1,123 @@
 *{
    box-sizing: border-box;
 }
-body{
-background-color: rgb(235, 214, 121);
+
+body{ 
+    margin: 0;
 }
+/* //////////////////////////////////////////////////// */
+
+/* navigation */
+
+/* //////////////////////////////////////////////////// */
+
+nav,nav > div > ul{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    font-size: large;
+    color: white;
+}
+nav{
+    background-color: rgb(97, 95, 95);
+    width: 100%;
+}
+nav > div > ul{
+    list-style-type: none;
+}
+
+nav > div > ul > li{
+    margin-left: 10px;
+}
+
+
+/* //////////////////////////////////////////////////// */
+
+/* main section */
+
+/* //////////////////////////////////////////////////// */
+
 main{
     display: flex;
-    width: 600px;
-    margin: auto;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-top: 10px;
+}
+.expenses{
+    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 100%;
+    width: 50%;
 }
-div.total{
+.expense-list{
+width: 80%;
+}
+.list,.show{
     display: flex;
-    margin: auto;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
 }
-.main{
-    display: flex;
-    margin: auto;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
+.show{
+    justify-content: space-evenly;
+    float: left;
+    list-style-type: none;
+    width: 50%;
 }
-.expenses > input{
+li#desc{
+    display: none;
+}
+.perform > button {
+    border-radius: 50%;
+    margin-left: 5px;
+    height:35px;
+    width: 35px;
+    background-color: rgba(6, 128, 199, 0.87);
+    color: white;
     border: none;
-    color: black;
 }
-.expenses > input:focus{
-    outline: none;
+/* //////////////////////////////////////////////////// */
+
+/* add expense section */
+
+/* //////////////////////////////////////////////////// */
+
+.add-expense{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 50%;
 }
-#amount{
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 50%;
+    margin-top: 30px;
+    font-size: larger;
+}
+
+input,button{
+    margin-top: 15px;
+}
+input{
+    padding: 7px;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+form > button{
+    margin: 10px auto;
+    border-radius: 5%;
+    padding: 10px 5px;
     width: 150px;
-}
-
-input,select,button{
-    padding: 5px;
-}
-
-/* ////////////////////////////////////////////////// */
-
-/* expenses list */
-
-/* ////////////////////////////////////////////////// */
-
-
-.expenseList{
-    display: flex;
-    background-color: aqua;
-    margin: auto;
-    max-width: 800px;
-    flex-direction: column;
-}
-.dk{
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-}
-ul{
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    
-}
-.list{
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.update-delete{
-    display: flex;
-    margin: auto;
-    justify-content: space-between;
-    max-width: 250px;
-}
-/* 
-.expenseList{
-    flex-direction: column;
-    flex-wrap: nowrap;
-    width: 100%;
-} */
-.list>li{
-   list-style-type: none;
+    font-size: 15px;
+    background-color: rgba(6, 128, 199, 0.87);
+    color: white;
+    font-size: 15px;
+    border: none;
 }

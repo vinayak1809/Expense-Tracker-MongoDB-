@@ -1,37 +1,23 @@
 const token = localStorage.getItem("token");
 
 function showExpense(expenseList) {
-  const expensesList = document.getElementById("expenseList");
+  const expensesList = document.getElementById("expense-list");
   expenseList.forEach((expense) => {
     const div = document.createElement("div");
-    div.setAttribute("class", "dk");
-    div.innerHTML = `
-    <div id=${expense.id} class="dk">          
-        <ul class="list">
-            <li>${expense.category}</li>
-            <li>${expense.description}</li>
+    div.setAttribute("class", "list");
+    div.setAttribute("id", `${expense.id}`);
+
+    div.innerHTML = `       
+        <div class="show">
+            <li id="cate">${expense.category}</li>
             <li>${expense.amount}</li>
-        </ul>
-        <div class="update-delete">
-            <button onclick="deleteExpense(${expense.id})">delete</button>
-            <button>edit</button>
+            <li id="desc">${expense.description}</li>
         </div>
-    </div>`;
-    // ul = document.createElement("ul");
-    // ul.setAttribute("class", "list");
-
-    // category = document.createElement("li");
-    // category.innerHTML = expense.category;
-
-    // desc = document.createElement("li");
-    // desc.innerHTML = expense.description;
-
-    // amount = document.createElement("li");
-    // amount.innerHTML = expense.amount;
-
-    // ul.appendChild(category);
-    // ul.appendChild(desc);
-    // ul.appendChild(amount);
+        <div class="perform">
+        <button><span class="material-symbols-outlined">edit</span></button>
+        <button onclick="deleteExpense(${expense.id})"><span class="material-symbols-outlined">delete</span></button>
+        </div>
+    `;
 
     expensesList.appendChild(div);
   });
@@ -47,7 +33,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 async function saveExpense(event) {
   event.preventDefault();
-  console.log(token, "saveexpense");
+
   const form = new FormData(event.target);
 
   const addExpense = {
@@ -92,3 +78,14 @@ async function deleteExpense(id) {
       console.log("error in delete expense", err);
     });
 }
+
+// document.getElementById("cate").addEventListener("mouseover", mouseOver);
+// document.getElementById("cate").addEventListener("mouseout", mouseOut);
+
+// function mouseOver() {
+//   document.getElementById("desc").style.display = "block";
+// }
+
+// function mouseOut() {
+//   document.getElementById("desc").style.display = "none";
+// }
