@@ -3,15 +3,22 @@ let page = 1;
 
 const previous = document.getElementById("previous");
 const next = document.getElementById("next");
+var itemNum = localStorage.getItem("NumberOfExpense");
+
+////////////////////////////////////////////////////
+// pagination
+////////////////////////////////////////////////////
 
 async function callPage(event) {
   event.preventDefault();
+
+  var itemNum = localStorage.getItem("NumberOfExpense");
 
   if (event.target.id == "next") {
     previous.style.display = "block";
     page = page + 1;
     await axios
-      .get(`http://localhost:4000/expense/?page=${page}`, {
+      .get(`http://localhost:4000/expense/?page=${page}&item=${itemNum}`, {
         headers: { authorization: token },
       })
       .then((result) => {
@@ -24,7 +31,7 @@ async function callPage(event) {
   } else {
     page = page - 1;
     await axios
-      .get(`http://localhost:4000/expense/?page=${page}`, {
+      .get(`http://localhost:4000/expense/?page=${page}&item=${itemNum}`, {
         headers: { authorization: token },
       })
       .then((result) => {
@@ -32,6 +39,10 @@ async function callPage(event) {
       });
   }
 }
+
+////////////////////////////////////////////////////
+// display expense
+////////////////////////////////////////////////////
 
 function showExpense(expenseList) {
   const expensesList = document.getElementById("expense-list");
@@ -57,9 +68,8 @@ function showExpense(expenseList) {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
-  console.log("here again");
   await axios
-    .get(`http://localhost:4000/expense/?page=${page}`, {
+    .get(`http://localhost:4000/expense/?page=${page}&item=${itemNum}`, {
       headers: { authorization: token },
     })
     .then((result) => {
@@ -67,6 +77,9 @@ window.addEventListener("DOMContentLoaded", async () => {
       showExpense(result.data);
     });
 });
+////////////////////////////////////////////////////
+// save expense
+////////////////////////////////////////////////////
 
 async function saveExpense(event) {
   event.preventDefault();
@@ -92,6 +105,9 @@ async function saveExpense(event) {
       console.log(err);
     });
 }
+////////////////////////////////////////////////////
+// delete expense
+////////////////////////////////////////////////////
 
 function deleteFromFrontEnd(id) {
   const div = document.getElementById(id);
@@ -125,3 +141,14 @@ async function deleteExpense(id) {
 // function mouseOut() {
 //   document.getElementById("desc").style.display = "none";
 // }
+
+////////////////////////////////////////////////////
+// how many expense you wnt to show on one page
+////////////////////////////////////////////////////
+
+const input = document.querySelector("input");
+input.addEventListener("input", updateValue);
+
+function updateValue(e) {
+  localStorage.setItem("NumberOfExpense", e.target.value);
+}
