@@ -16,7 +16,9 @@ async function callPage(event) {
 
   if (event.target.id == "next") {
     previous.style.display = "block";
+
     page = page + 1;
+
     await axios
       .get(`http://localhost:4000/expense/?page=${page}&item=${itemNum}`, {
         headers: { authorization: token },
@@ -30,6 +32,7 @@ async function callPage(event) {
       });
   } else {
     page = page - 1;
+
     await axios
       .get(`http://localhost:4000/expense/?page=${page}&item=${itemNum}`, {
         headers: { authorization: token },
@@ -46,6 +49,7 @@ async function callPage(event) {
 
 function showExpense(expenseList) {
   const expensesList = document.getElementById("expense-list");
+  expensesList.innerHTML = "";
   expenseList.forEach((expense) => {
     const div = document.createElement("div");
     div.setAttribute("class", "list");
