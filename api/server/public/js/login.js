@@ -16,7 +16,6 @@ async function loginuser(event) {
     Window.location.href = "http://localhost:4000/add-expense.html";
   }
   if (log.data.success == false) {
-    console.log(log.data.message);
     window.alert(log.data.message);
   }
 }
