@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/premium.css">
+    <title>Premium</title>
+</head>
+<body>
+    <main>
+        <div id="payment_buttons">
+            <button type="submit" name="30" id="30" class="30">
+                <p>$5 / 30 Days</p>
+            </button>
+            <button  type="submit" name="365" id="365" class="365">
+                <p>$40 / 365 Days</p>
+            </button>
+        </div>
+
+        <div id="checkoutSection">
+            <input type="text" id="rzp-text">
+            <button id="rzp-button1">Checkout</button>
+        </div>
+
+        <div id="verifySection">
+            <form onsubmit="verify(event)" method="POST">
+                <input type="text" placeholder="order id: " name="order-id" id="order-id">
+                <input type="text" placeholder="Payment id: " name="order-pay-id" id="order-pay-id">
+                <input type="text" placeholder="signature: " name="signature" id="order-sig">
+                <button type="submit">verify</button>
+            </form>
+        </div>
+    </main>
+
+    
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="./js/premium.js"></script>
+</body>
+</html>
