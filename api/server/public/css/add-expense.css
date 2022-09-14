@@ -121,3 +121,8 @@ form > button{
     font-size: 15px;
     border: none;
 }
+
+.dark-mode {
+    background-color: black;
+    color: white;
+  }

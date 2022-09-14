@@ -48,7 +48,12 @@ async function callPage(event) {
 ////////////////////////////////////////////////////
 
 function showExpense(expenseList) {
+  const premium = localStorage.getItem("premium");
   const expensesList = document.getElementById("expense-list");
+
+  if (premium) {
+    document.body.classList.toggle("dark-mode");
+  }
   expensesList.innerHTML = "";
   expenseList.forEach((expense) => {
     const div = document.createElement("div");
