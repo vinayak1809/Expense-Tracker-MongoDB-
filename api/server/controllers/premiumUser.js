@@ -1,7 +1,12 @@
 const Order = require("../src/models/order");
 const Razopay = require("razorpay");
+const User = require("../src/models/user");
 
-exports.getOrder = (req, res, next) => {
+///////////////////////////////////////////////
+// create-order
+///////////////////////////////////////////////
+
+exports.postOrder = (req, res, next) => {
   try {
     var rzp = new Razopay({
       key_id: process.env.RZP_KEY_ID,
@@ -14,7 +19,7 @@ exports.getOrder = (req, res, next) => {
 
     rzp.orders.create({ amount, currency, receipt }, (err, order) => {
       if (!err) {
-        console.log(order.id, "orderiddddddddddddddddddd");
+        console.log(req.id, "orderiddddddddddddddddddd");
         Order.create({
           userId: req.id,
           paymentid: "",
@@ -33,25 +38,32 @@ exports.getOrder = (req, res, next) => {
   }
 };
 
-exports.verifyOrder = (req, res, next) => {
+///////////////////////////////////////////////
+// verify-order
+///////////////////////////////////////////////
+
+exports.verifyOrder = async (req, res, next) => {
   const paymentId = req.body.orderPayId;
   const orderId = req.body.orderId;
   const signature = req.body.signature;
-  console.log("verifyOrder", paymentId, orderId);
 
   try {
     Order.update(
       { paymentid: paymentId, status: "successfull" },
       { where: { orderid: orderId } }
     ).then(() => {
-      req.id.update({ ispremiumuser: true });
-      return res
-        .status(202)
-        .json({ sucess: true, message: "Transaction Successful" });
+      // req.id.update({ ispremiumuser: true });
+      User.update({ ispremiumuser: true }, { where: { id: req.id } }).then(
+        () => {
+          return res
+            .status(202)
+            .json({ sucess: true, message: "Transaction Successfull" });
+        }
+      );
     });
   } catch {
     return res
       .status(202)
-      .json({ sucess: false, message: "Transaction Successful" });
+      .json({ sucess: false, message: "Transaction unSuccessfull" });
   }
 };
