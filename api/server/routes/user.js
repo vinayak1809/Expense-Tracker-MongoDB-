@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const head = require("../../../app");
 
 const authController = require("../controllers/authorization");
 const userExpense = require("../controllers/user");
@@ -16,15 +15,15 @@ router.post("/login", authController.postLogin);
 
 router.get("/expense", middleware.authenticate, userExpense.getExpenses);
 router.post("/add-expense", middleware.authenticate, userExpense.addExpense);
+router.post(
+  "/delete-expense",
+  middleware.authenticate,
+  userExpense.deleteExpense
+);
 
-router.post("/order", premiumController.getOrder);
+router.post("/order", middleware.authenticate, premiumController.postOrder);
 router.post("/verify", middleware.authenticate, premiumController.verifyOrder);
 
 //router.post("/password/forgotpassword", authController.postMail);
-//router.post(
-//  "/delete-expense",
-//  middleware.authenticate,
-//  userExpense.deleteExpense
-//);
 
 module.exports = router;
