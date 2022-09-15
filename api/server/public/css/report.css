@@ -1,0 +1,71 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+}
+
+main{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 50px 0px 100px ;
+}
+.today-date,.download{
+  display: flex;
+  width: 43%;
+  align-items: center;
+  justify-content: flex-end;
+}
+.month,.year,.note{
+    margin-top: 20px;
+    width: 600px;
+}
+
+#expense-month,#expense-year,#expense-note {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #expense-month td,#expense-year td,#expense-note td,
+   #expense-month th,#expense-year th,#expense-note th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #expense-month tr:nth-child(even),
+  #expense-year tr:nth-child(even),
+  #expense-note tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #expense-month tr:hover,#expense-year tr:hover,#expense-note tr:hover {background-color: #ddd;}
+  
+  #expense-month th,#expense-year th,#expense-note th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .download{
+    display: flex;
+    margin: 20px 0px 50px;
+    width: 44%;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  button{
+    border-radius: 5%;
+    border: none;
+    width: 100px;
+    height: 25px;
+    background-color: #04AA6D;
+    color: white;
+    font-size:medium;
+  }
