@@ -22,7 +22,16 @@ router.post(
 );
 
 router.post("/order", middleware.authenticate, premiumController.postOrder);
+
+//router.post(
+//  "/checkout",
+//  middleware.authenticate,
+//  premiumController.checkoutOrder
+//);
 router.post("/verify", middleware.authenticate, premiumController.verifyOrder);
+
+// router.get("/report", middleware.authenticate, premiumController.getReport);
+router.get("/download", middleware.authenticate, premiumController.download);
 
 //router.post("/password/forgotpassword", authController.postMail);
 

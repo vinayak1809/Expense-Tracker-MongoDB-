@@ -1,6 +1,8 @@
 const Order = require("../src/models/order");
 const Razopay = require("razorpay");
 const User = require("../src/models/user");
+const Expenses = require("../src/models/expenses");
+const S3Service = require("../services/S3Service");
 
 ///////////////////////////////////////////////
 // create-order
@@ -39,6 +41,12 @@ exports.postOrder = (req, res, next) => {
 };
 
 ///////////////////////////////////////////////
+// checkout-order
+///////////////////////////////////////////////
+
+//exports.checkoutOrder = (req, res, next) => {};
+
+///////////////////////////////////////////////
 // verify-order
 ///////////////////////////////////////////////
 
@@ -65,5 +73,39 @@ exports.verifyOrder = async (req, res, next) => {
     return res
       .status(202)
       .json({ sucess: false, message: "Transaction unSuccessfull" });
+  }
+};
+
+///////////////////////////////////////////////
+// genarate-report
+///////////////////////////////////////////////
+
+// exports.getReport = (req, res, next) => {
+//   Expenses.findAll({ where: { id: req.id } })
+//     .then((records) => {
+//       res.status(200).json(records);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
+
+///////////////////////////////////////////////
+// download-report
+///////////////////////////////////////////////
+
+exports.download = async (req, res, next) => {
+  try {
+    const expenses = await Expenses.findAll({ where: { id: req.id } });
+
+    const StringifyData = JSON.stringify(expenses);
+    const user = req.id;
+    const fileName = `expenseReport${user}.txt`;
+
+    const fileUrl = await S3Service.uploadToS3(StringifyData, fileName);
+
+    return res.status(200).json({ fileUrl, success: true });
+  } catch (err) {
+    return res.status(500).json({ fileUrl: "", success: false, error: err });
   }
 };
