@@ -59,7 +59,7 @@ threeSixFive.addEventListener("click", async function () {
 
 function createe() {
   var options = {
-    key: "rzp_test_IeLLvZzDg1jvE1", // razorpay key
+    key: "", // razorpay key
     currency: "INR",
     name: "Razor Tutorial",
     description: "Razor Test Transaction",
