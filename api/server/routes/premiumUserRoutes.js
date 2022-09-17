@@ -16,7 +16,7 @@ router.post("/verify", middleware.authenticate, premiumController.verifyOrder);
 router.get("/download", middleware.authenticate, premiumController.download);
 router.post("/postFile", middleware.authenticate, premiumController.postFile);
 router.get("/getFile", middleware.authenticate, premiumController.getFile);
-// router.get("/key", middleware.authenticate, premiumController.key);
+router.get("/key", middleware.authenticate, premiumController.key);
 //router.post("/password/forgotpassword", authController.postMail);
 
 module.exports = router;

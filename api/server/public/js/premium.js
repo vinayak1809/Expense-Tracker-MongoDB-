@@ -56,10 +56,10 @@ threeSixFive.addEventListener("click", async function () {
 ///////////////////////////////////////////////
 // checkout section
 ///////////////////////////////////////////////
-
-function createe() {
+// function createe() { return new Promise(async (resolve, reject) => { await axios .get(`${url}/key`, { headers: { authorization: token }, }) .then((key) => { console.log(key.data.key_id, "key");
+function createe(key_id) {
   var options = {
-    key: "", // razorpay key
+    key: key_id,
     currency: "INR",
     name: "Razor Tutorial",
     description: "Razor Test Transaction",
@@ -84,20 +84,26 @@ function createe() {
 // call event after clicking on checkout
 
 document.getElementById("checkoutButton").onclick = function async(e) {
-  var razorpayObject = new Razorpay(createe());
+  const a = axios
+    .get(`${url}/key`, {
+      headers: { authorization: token },
+    })
+    .then((data) => {
+      var razorpayObject = new Razorpay(createe(data.data.key_id));
 
-  razorpayObject.on("payment.failed", function (response) {
-    alert("This step of Payment Failed");
-  });
+      razorpayObject.on("payment.failed", function (response) {
+        alert("This step of Payment Failed");
+      });
 
-  razorpayObject.open();
-  e.preventDefault();
+      razorpayObject.open();
+      e.preventDefault();
 
-  const checkoutSection = document.getElementById("checkoutSection");
-  checkoutSection.style.display = "none";
+      const checkoutSection = document.getElementById("checkoutSection");
+      checkoutSection.style.display = "none";
 
-  const verifySection = document.getElementById("verifySection");
-  verifySection.style.display = "block";
+      const verifySection = document.getElementById("verifySection");
+      verifySection.style.display = "block";
+    });
 };
 
 ///////////////////////////////////////////////

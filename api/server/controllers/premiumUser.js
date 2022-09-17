@@ -9,20 +9,22 @@ const S3Service = require("../services/S3Service");
 // create-order
 ///////////////////////////////////////////////
 
+exports.key = (req, res, next) => {
+  res.status(200).json({ key_id: process.env.RZP_KEY_ID });
+};
+
 exports.postOrder = (req, res, next) => {
   try {
     var rzp = new Razopay({
       key_id: process.env.RZP_KEY_ID,
       key_secret: process.env.RZP_KEY_SECRET,
     });
-
     const amount = req.body.amount;
     const currency = "INR";
     const receipt = "yearlypackage";
 
     rzp.orders.create({ amount, currency, receipt }, (err, order) => {
       if (!err) {
-        console.log(req.id, "orderiddddddddddddddddddd");
         Order.create({
           userId: req.id,
           paymentid: "",
