@@ -31,8 +31,13 @@ app.use(morgan("combined", { stream: accessLogStream }));
 //routes
 ////////////////////////////////////////////////////
 
-const userRoutes = require("./api/server/routes/user");
+const authRoutes = require("./api/server/routes/authRoutes");
+const userRoutes = require("./api/server/routes/userRoutes");
+const premiumUserRoutes = require("./api/server/routes/premiumUserRoutes");
+
+app.use(authRoutes);
 app.use(userRoutes);
+app.use(premiumUserRoutes);
 
 ////////////////////////////////////////////////////
 //models
