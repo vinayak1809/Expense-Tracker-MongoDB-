@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const helmet = require("helmet");
-const morgan = require("morgan");
 const fs = require("fs");
 
 const app = express();
@@ -19,18 +18,10 @@ app.use(helmet());
 
 //keeping track of request made
 
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "access.log"),
-  {
-    flags: "a",
-  }
-);
-app.use(morgan("combined", { stream: accessLogStream }));
-
 ////////////////////////////////////////////////////
 //routes
 ////////////////////////////////////////////////////
-
+console.log("testing");
 const authRoutes = require("./api/server/routes/authRoutes");
 const userRoutes = require("./api/server/routes/userRoutes");
 const premiumUserRoutes = require("./api/server/routes/premiumUserRoutes");
