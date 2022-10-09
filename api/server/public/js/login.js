@@ -13,7 +13,7 @@ async function loginuser(event) {
     alert(log.data.message);
     localStorage.setItem("token", log.data.token);
 
-    Window.location.href = "http://localhost:4000/add-expense.html";
+    window.location.href = "http://localhost:4000/add-expense.html";
   }
   if (log.data.success == false) {
     window.alert(log.data.message);
