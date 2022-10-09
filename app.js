@@ -3,8 +3,8 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const helmet = require("helmet");
 const fs = require("fs");
+const mongoose = require("mongoose");
 
 const app = express();
 
@@ -14,14 +14,11 @@ app.use(bodyParser.json());
 app.use(cors());
 
 dotenv.config();
-app.use(helmet());
-
-//keeping track of request made
 
 ////////////////////////////////////////////////////
 //routes
 ////////////////////////////////////////////////////
-console.log("testing");
+
 const authRoutes = require("./api/server/routes/authRoutes");
 const userRoutes = require("./api/server/routes/userRoutes");
 const premiumUserRoutes = require("./api/server/routes/premiumUserRoutes");
@@ -34,31 +31,8 @@ app.use(premiumUserRoutes);
 //models
 ////////////////////////////////////////////////////
 
-const sequelize = require("./api/server/util/database");
-
-const User = require("./api/server/src/models/user");
-const Expense = require("./api/server/src/models/expenses");
-const Order = require("./api/server/src/models/order");
-const ForgetPassword = require("./api/server/src/models/forgetPassword");
-const FileRecords = require("./api/server/src/models/FileRecords");
-
-User.hasMany(Expense);
-Expense.belongsTo(User);
-
-User.hasMany(Order);
-Order.belongsTo(User);
-
-User.hasMany(ForgetPassword);
-ForgetPassword.belongsTo(User);
-
-User.hasMany(FileRecords);
-FileRecords.belongsTo(User);
-
-sequelize
-  .sync()
+const mongooseClient = mongoose
+  .connect(process.env.DATABASE_CONNECT)
   .then(() => {
-    app.listen(process.env.PORT || 4000);
-  })
-  .catch((err) => {
-    console.log(err);
+    app.listen(4000);
   });

@@ -6,13 +6,13 @@ const page = 2;
 
 exports.getExpenses = function (req, res, next) {
   const page = +req.query.page || 1;
-  console.log(page);
-  return Expenses.findAll({
-    offset: (page - 1) * ITEMS_PER_PAGE,
-    limit: ITEMS_PER_PAGE,
-  }).then((expense) => {
-    res.json(expense);
-  });
+  return Expenses.find()
+    .skip((page - 1) * ITEMS_PER_PAGE)
+    .limit(ITEMS_PER_PAGE)
+    .then((expense) => {
+      const expenses = { expense: expense, premium: req.premium };
+      res.json(expenses);
+    });
 };
 
 exports.addExpense = function (req, res, next) {
@@ -25,13 +25,14 @@ exports.addExpense = function (req, res, next) {
       .status(400)
       .json({ success: false, message: "parameter missing" });
   }
-
-  Expenses.create({
+  const expense = new Expenses({
     category: category,
     description: description,
     amount: amount,
     userId: req.id,
-  })
+  });
+  expense
+    .save()
     .then((expense) => {
       res.status(200).json({ success: true, message: "Item added" });
     })
@@ -42,13 +43,13 @@ exports.addExpense = function (req, res, next) {
 
 exports.deleteExpense = (req, res, next) => {
   const id = req.body.id;
-  console.log("req.id>>>>>>", req.id, id);
+  console.log(id, "req.id>>>>>>", req.id);
 
   if (id == undefined) {
     res.status(400).json({ success: false, message: "undefined" });
   }
-
-  Expenses.destroy({ where: { id: id, userId: req.id } })
+  console.log(id, req.id);
+  Expenses.deleteOne({ where: { id: id, userId: req.id } })
     .then((result) => {
       res.status(200).json({ success: true, message: "Item deleted" });
     })

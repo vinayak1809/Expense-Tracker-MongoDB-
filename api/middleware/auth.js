@@ -7,10 +7,9 @@ const authenticate = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
 
     req.id = decoded.id;
-
+    req.premium = decoded.premium;
     next();
   } catch (err) {
-    console.log(err);
     return res.status(401).json({ success: false, message: "login first" });
   }
 };
